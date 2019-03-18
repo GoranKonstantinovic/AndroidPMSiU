@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AndroidPMSiU.Views.Login.LoginPage"
+             BackgroundColor="#fff0d3"
+             NavigationPage.HasBackButton = "False">
+    <StackLayout x:Name="MasterLayout">
+
+        <StackLayout x:Name="LogoStack" VerticalOptions="FillAndExpand">
+            <Image x:Name="LoginIcon" Source="AppIcon.png" HeightRequest="100" WidthRequest="100" Margin="0,90,0,0"/>
+        </StackLayout>
+
+        <StackLayout x:Name="LoginEntriesStack" VerticalOptions="StartAndExpand">
+            <StackLayout.Padding>
+                <OnIdiom x:TypeArguments="Thickness" Phone="40,0,40,0" Tablet="140,150,140,0"/>
+            </StackLayout.Padding>
+
+            <Label x:Name="Lbl_Username" Text="Корисничко име"/>
+            <Entry x:Name="Entry_Username" Placeholder="Корисничко име"/>
+            <Label x:Name="Lbl_Password" Text="Лозинка"/>
+            <Entry x:Name="Entry_Password" Placeholder="Лозинка"/>
+            <Button x:Name="Btn_Signin" BackgroundColor="#475965" TextColor="White" Text="Пријављивање" Clicked="LoginProcedure"/>
+        </StackLayout>
+    </StackLayout>
+</ContentPage>

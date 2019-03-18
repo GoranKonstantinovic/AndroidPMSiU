@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AndroidPMSiU.Views.Contact.ContactDetailsPage">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Icon="write.png" Order="Primary" Text="Сортирање" Priority="1" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <RelativeLayout>
+            <StackLayout 
+                Padding="15,10,15,0" 
+                HorizontalOptions="StartAndExpand" 
+                Orientation="Vertical">
+
+                <Grid 
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="FillAndExpand"
+            >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Label
+                        x:Name="fullName"
+                        FontSize="32"
+                        Grid.Row="0"/>
+
+                    <Label
+                        x:Name="displayName"
+                        FontSize="Medium"
+                        Grid.Row="1"/>
+
+                    <Label
+                        x:Name="emailAdress"
+                        FontSize="Medium"
+                        Grid.Row="2"/>
+                </Grid>
+
+            </StackLayout>
+        </RelativeLayout>
+    </ContentPage.Content>
+</ContentPage>

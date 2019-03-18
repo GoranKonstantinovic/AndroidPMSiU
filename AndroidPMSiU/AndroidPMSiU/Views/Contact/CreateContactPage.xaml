@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:AndroidPMSiU.Views.Contact"
+             x:Class="AndroidPMSiU.Views.Contact.CreateContactPage"
+             Title="Информације о контакту"
+             BackgroundColor="#fff0d3">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Icon="save.png" Order="Primary" Priority="1" Clicked="SaveContactProcedure"/>
+    </ContentPage.ToolbarItems>
+    <StackLayout x:Name="MasterLayout">
+        <StackLayout x:Name="CreateContactStack" VerticalOptions="StartAndExpand">
+
+            <StackLayout.Padding>
+                <OnIdiom x:TypeArguments="Thickness" Phone="40,0,40,0" Tablet="140,150,140,0"/>
+            </StackLayout.Padding>
+
+            <Entry x:Name="Entry_Firstname" Placeholder="Име"/>
+            <Entry x:Name="Entry_Lastname" Placeholder="Презиме"/>
+            <Entry x:Name="Entry_DisplayName" Placeholder="Назив контакта"/>
+            <Entry x:Name="Entry_Email_Adress" Placeholder="Адреса електронске поште"/>
+            <Label x:Name="Label_Choose_Image" Text="Изаберите фотографију"/>
+            <Image x:Name="Image_Contact" Source="contact_image.png" HeightRequest="128" WidthRequest="128">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" NumberOfTapsRequired="1" />
+                </Image.GestureRecognizers>
+            </Image>
+        </StackLayout>
+    </StackLayout>
+</ContentPage>

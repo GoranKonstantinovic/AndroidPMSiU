@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:forms="clr-namespace:dotMorten.Xamarin.Forms;assembly=dotMorten.Xamarin.Forms.AutoSuggestBox"
+             x:Class="AndroidPMSiU.Views.CreateMail.CreateMailPage"
+             Title="Нова порука"
+             BackgroundColor="#fff0d3">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Icon="send.png" Order="Primary" Priority="1" Clicked="SendMessageProcedure"/>
+    </ContentPage.ToolbarItems>
+    <StackLayout x:Name="MasterLayout">
+        <StackLayout x:Name="CreateMessageStack" VerticalOptions="StartAndExpand">
+
+            <StackLayout.Padding>
+                <OnIdiom x:TypeArguments="Thickness" Phone="40,0,40,0" Tablet="140,150,140,0"/>
+            </StackLayout.Padding>
+
+            <forms:AutoSuggestBox x:Name="Entry_Message_To"
+                                  PlaceholderText="Прималац"
+                                  TextChanged="AutoSuggestBox_TextChanged"
+                                  QuerySubmitted="AutoSuggestBox_QuerySubmitted"/>
+            <ScrollView
+                Orientation="Horizontal">
+                <StackLayout 
+                    x:Name="Stack_Contacts" 
+                    Orientation="Horizontal" />
+            </ScrollView>
+ 
+            <forms:AutoSuggestBox x:Name="Entry_Message_CC" 
+                                  PlaceholderText="Копија"
+                                  TextChanged="AutoSuggestBox_TextChangedCC"
+                                  QuerySubmitted="AutoSuggestBox_QuerySubmittedCC"/>
+            
+            <ScrollView
+                Orientation="Horizontal">
+                <StackLayout 
+                    x:Name="Stack_CC" 
+                    Orientation="Horizontal" />
+            </ScrollView>
+
+            <forms:AutoSuggestBox x:Name="Entry_Message_BCC" 
+                                  PlaceholderText="Скривена копија"
+                                  TextChanged="AutoSuggestBox_TextChangedBCC"
+                                  QuerySubmitted="AutoSuggestBox_QuerySubmittedBCC"/>
+            <ScrollView
+                Orientation="Horizontal">
+                <StackLayout 
+                    x:Name="Stack_BCC" 
+                    Orientation="Horizontal" />
+            </ScrollView>
+            
+            <Entry x:Name="Entry_Message_Subject" Placeholder="Наслов"/>
+            <Editor x:Name="Entry_Message_Content" Placeholder="Порука" HeightRequest="200" Grid.Row="3"/>
+            <Button Text="Додај датотеке" 
+                    Clicked="FilePickerProcedure" 
+                    HorizontalOptions="Center"  
+                    VerticalOptions="Center"/>
+            <Label Text="Изабрали сте: " x:Name="lblPickedFile"/>
+        </StackLayout>
+    </StackLayout>
+</ContentPage>
