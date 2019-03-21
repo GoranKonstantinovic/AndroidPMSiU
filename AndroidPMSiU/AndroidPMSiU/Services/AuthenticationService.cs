@@ -37,7 +37,7 @@ namespace AndroidPMSiU.Services
                 }
                 return false;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return false;
             }
@@ -57,10 +57,6 @@ namespace AndroidPMSiU.Services
         {
             App.Current.Properties.Remove("token");
         }
-
-
-
-
 
         public static void InsertSyncTime()
         {

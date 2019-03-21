@@ -1,14 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:input="clr-namespace:Plugin.InputKit.Shared.Controls;assembly=Plugin.InputKit"
              x:Class="AndroidPMSiU.Views.Setings.SetingsPage"
              BackgroundColor="#fff0d3"
              Title="Подешавања">
-    <ContentPage.Content>
-        <StackLayout>
-            <Label Text="ОЂЕ СЕ НАМЕШТА СВАШТА!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
-    </ContentPage.Content>
+
+    <StackLayout Spacing="12" Padding="15,10,15,0">
+        <Label
+            x:Name="syncLabel"
+            FontSize="Medium"
+            Grid.Row="1"
+            Text="Изаберите временски период освежавања порука"/>
+        <input:RadioButtonGroupView x:Name="RadioButton_Sync">
+            <input:RadioButton Text="10 секунди" Clicked="SyncTimeSettings" />
+            <input:RadioButton Text="20 секунди" Clicked="SyncTimeSettings" />
+            <input:RadioButton Text="1 минут" Clicked="SyncTimeSettings" />
+            <input:RadioButton Text="10 минута" Clicked="SyncTimeSettings" />
+        </input:RadioButtonGroupView>
+    </StackLayout>
+
 </ContentPage>

@@ -34,14 +34,14 @@ namespace AndroidPMSiU.Views.CreateMail
         {
             base.OnAppearing();
             dialog.Show();
-            var emails = RealmMessageService.GetMessagesByType(RealmMessageService.DRAFT_MESSAGE_TYPE);
+            emails = RealmMessageService.GetMessagesByType(RealmMessageService.DRAFT_MESSAGE_TYPE);
             MyList.ItemsSource = emails;
             dialog.Hide();
         }
 
         private void CreateMailProcedure(object obj, EventArgs e)
         {
-            Navigation.PushAsync(new CreateMailPage());
+            Navigation.PushAsync(new CreateMailPage(""));
         }
 
         int filter = 1;
@@ -79,7 +79,7 @@ namespace AndroidPMSiU.Views.CreateMail
         private void FilterMailParameterProcedure(object sender, EventArgs e)
         {
             var selectedIndex = Picker_Filter.SelectedIndex;
-            emails = RealmMessageService.GetMessagesByType(RealmMessageService.DRAFT_MESSAGE_TYPE);
+            emails = RealmMessageService.GetMessagesByType(RealmMessageService.RECIVE_MESSAGE_TYPE);
             if (selectedIndex == 0)
             {
                 HideFilter();
@@ -90,14 +90,28 @@ namespace AndroidPMSiU.Views.CreateMail
                 HideFilter();
                 emails = emails.Where(x => x.MessageContent.ToLower().Contains(Entry_Filter.Text.ToLower())).ToList();
             }
-            if (selectedIndex == 4)
+            if (selectedIndex == 2)
+            {
+                HideFilter();
+                emails = emails.Where(x => x.ContactsTo.Any(z => z.DisplayName.ToLower().Contains(Entry_Filter.Text.ToLower()))).ToList();
+            }
+            if (selectedIndex == 3)
             {
                 HideFilter();
                 emails = emails.Where(x => x.From.ToLower().Contains(Entry_Filter.Text.ToLower())).ToList();
             }
+            if (selectedIndex == 4)
+            {
+                HideFilter();
+                emails = emails.Where(x => x.ContactsCC.Any(z => z.DisplayName.ToLower().Contains(Entry_Filter.Text.ToLower()))).ToList();
+            }
+            if (selectedIndex == 5)
+            {
+                HideFilter();
+                emails = emails.Where(x => x.ContactsBCC.Any(z => z.DisplayName.ToLower().Contains(Entry_Filter.Text.ToLower()))).ToList();
+            }
             MyList.ItemsSource = emails;
         }
-
 
         private void ShowFilter()
         {

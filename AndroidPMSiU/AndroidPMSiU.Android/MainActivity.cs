@@ -25,6 +25,7 @@ namespace AndroidPMSiU.Droid
             UserDialogs.Init(this);
             CrossCurrentActivity.Current.Init(this, savedInstanceState);
 
+            Plugin.InputKit.Platforms.Droid.Config.Init(this, savedInstanceState);
 
             LoadApplication(new App());
 

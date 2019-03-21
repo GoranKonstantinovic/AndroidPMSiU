@@ -13,7 +13,9 @@ namespace AndroidPMSiU.Services
         public static void TryToSync()
         {
 
-                Device.StartTimer(TimeSpan.FromSeconds(10), () =>
+            int syncInterval = SettingsService.GetSyncTime();
+
+                Device.StartTimer(TimeSpan.FromSeconds(syncInterval), () =>
                 {
                     if (AuthenticationService.GetToken() == null)
                     {
@@ -31,6 +33,12 @@ namespace AndroidPMSiU.Services
                         }
                         });
 
+
+                    if (syncInterval != SettingsService.GetSyncTime())
+                    {
+                        TryToSync();
+                        return false;
+                    }
                     return true;
                 });            
         }

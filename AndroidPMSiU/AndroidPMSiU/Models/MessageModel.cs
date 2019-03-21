@@ -30,19 +30,19 @@ namespace AndroidPMSiU.Models
         public List<ContactModel> ContactsTo { get; set; }
 
         [Ignored]
-        public string StringContactsFrom { get; set; }
+        public string StringContactsFrom { get; set; }//
 
 
         public IList<long> ContactsFromIds { get;}
         [Ignored]
-        public List<ContactModel> ContactsFrom { get; set; }
+        public List<ContactModel> ContactsFrom { get; set; } //
 
         public IList<long> ContactsCCIds { get; }
         [Ignored]
         public List<ContactModel> ContactsCC { get; set; }
 
         [Ignored]
-        public string StringContactsCC { get; set; }
+        public string StringContactsCC { get; set; } //
 
         public IList<long> ContactsBCCIds { get; }
         [Ignored]
@@ -56,20 +56,21 @@ namespace AndroidPMSiU.Models
         public List<TagModel> Tags { get; set; }
 
         public IList<AttachmentModel> Attachments { get;}
+
+        //[Ignored]
+        //public List<AttachmentModel> AttachmentString { get; set; }
+
+
         public int Type { get; set; }
 
         public bool IsCreatedInMobileApp { get; set; }
 
         public bool IsRead { get; set; }
 
-
-
-
-
-
-
+        public bool IsDelete { get; set; }
 
         private string backgroundColor;
+
         [Ignored]
         public string BackgroundColor
         {
@@ -108,6 +109,7 @@ namespace AndroidPMSiU.Models
             ContactsTo = new List<long>();
             ContactsCC = new List<long>();
             ContactsBCC = new List<long>();
+            Attachments = new List<AttachmentModel>();
         }
         public bool IsDraft { get; set; }
         public string Subject { get; set; }

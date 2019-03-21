@@ -40,7 +40,7 @@ namespace AndroidPMSiU.Services
         }
         public static async Task<bool> CreateSentMessage(SendMessageModel model)
         {
-            
+
             try
             {
                 string URL = DataURL.MESSAGES;
@@ -65,7 +65,7 @@ namespace AndroidPMSiU.Services
 
             catch (Exception ex)
             {
-                
+
             }
             return false;
         }
@@ -82,6 +82,30 @@ namespace AndroidPMSiU.Services
                     client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AuthenticationService.GetToken());
                     using (HttpResponseMessage message = await client.PutAsync(url, null))
+                    {
+                        string rawResponse = await message.Content.ReadAsStringAsync();
+
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
+        public static async void DeleteMessage(long id)
+        {
+            try
+            {
+                List<MessageModel> messages = new List<MessageModel>();
+
+                string url = DataURL.MESSAGES + "/" + id;
+                using (HttpClient client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AuthenticationService.GetToken());
+                    using (HttpResponseMessage message = await client.DeleteAsync(url))
                     {
                         string rawResponse = await message.Content.ReadAsStringAsync();
 

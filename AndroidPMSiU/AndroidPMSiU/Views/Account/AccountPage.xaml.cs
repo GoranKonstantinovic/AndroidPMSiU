@@ -1,4 +1,6 @@
-﻿using AndroidPMSiU.Services;
+﻿using Acr.UserDialogs;
+using AndroidPMSiU.Models;
+using AndroidPMSiU.Services;
 using AndroidPMSiU.Services.Realms;
 using AndroidPMSiU.Views.Login;
 using System;
@@ -10,10 +12,22 @@ namespace AndroidPMSiU.Views.Account
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class AccountPage : ContentPage
 	{
-		public AccountPage ()
+        private IProgressDialog dialog;
+        public AccountPage()
 		{
-			InitializeComponent ();
-		}
+            try
+            {
+			    InitializeComponent ();
+
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            dialog = UserDialogs.Instance.Loading("Учитавање...");
+
+        }
 
         public void LogoutProcedure(object sender, EventArgs e)
         {

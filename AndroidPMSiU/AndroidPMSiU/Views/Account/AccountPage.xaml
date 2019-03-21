@@ -9,9 +9,20 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="О Koриснику"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <Label 
+                x:Name="Label_Account_Text" 
+                Text="Улоговани сте као корисник: " 
+                VerticalTextAlignment="Center" 
+                FontSize="Medium" 
+                Grid.Row="0"
+                Grid.Column="1"/>
+            <Label 
+                x:Name="Label_Username" 
+                Text="{Binding Username}" 
+                VerticalTextAlignment="Center" 
+                FontSize="Medium" 
+                Grid.Row="0"
+                Grid.Column="2"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

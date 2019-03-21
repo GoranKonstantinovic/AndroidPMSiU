@@ -51,11 +51,19 @@
             
             <Entry x:Name="Entry_Message_Subject" Placeholder="Наслов"/>
             <Editor x:Name="Entry_Message_Content" Placeholder="Порука" HeightRequest="200" Grid.Row="3"/>
-            <Button Text="Додај датотеке" 
+            <Button x:Name="Button_Attachment"
+                    Text="Додај датотеке" 
                     Clicked="FilePickerProcedure" 
                     HorizontalOptions="Center"  
                     VerticalOptions="Center"/>
-            <Label Text="Изабрали сте: " x:Name="lblPickedFile"/>
+            
+            <ScrollView
+                Orientation="Horizontal">
+                <StackLayout
+                    x:Name="Stack_Attachments" 
+                    Orientation="Horizontal" />
+            </ScrollView>
+            
         </StackLayout>
     </StackLayout>
 </ContentPage>

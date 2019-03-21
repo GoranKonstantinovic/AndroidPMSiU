@@ -72,10 +72,10 @@
 
                                         <Label 
                                             x:Name="DateAndTime" 
-                                            Text="{Binding DateTime}" 
+                                            Text="{Binding StringDateTime}" 
                                             VerticalTextAlignment="Center" 
                                             FontSize="Micro" 
-                                            Grid.Row="0" 
+                                            Grid.Row="2" 
                                             Grid.Column="2"/>
 
                                         <Label x:Name="Subject" 
@@ -125,7 +125,6 @@
                     <Picker.Items>
                         <x:String>Наслове</x:String>
                         <x:String>Садржај</x:String>
-                        <x:String>Кључне речи</x:String>
                         <x:String>Примаоце</x:String>
                         <x:String>Пошиљаоце</x:String>
                         <x:String>Копије</x:String>

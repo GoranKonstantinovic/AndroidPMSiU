@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AndroidPMSiU.Views.Contact.ContactDetailsPage">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Icon="write.png" Order="Primary" Text="Сортирање" Priority="1" />
+        <ToolbarItem Icon="write.png" Order="Primary" Priority="1" Clicked="SendMessageToContact" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <RelativeLayout>

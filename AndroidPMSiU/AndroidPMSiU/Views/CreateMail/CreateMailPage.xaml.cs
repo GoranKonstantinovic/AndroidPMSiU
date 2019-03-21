@@ -7,6 +7,7 @@ using Plugin.FilePicker;
 using Plugin.FilePicker.Abstractions;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -19,18 +20,20 @@ namespace AndroidPMSiU.Views.CreateMail
     public partial class CreateMailPage : ContentPage
     {
         private IProgressDialog dialog;
-
+        private bool _isImagePicking;
         private List<ContactModel> _contacts;
-        public List<ContactModel> _toContacts;
+        private List<ContactModel> _toContacts;
         private List<ContactModel> _toCC;
         private List<ContactModel> _toBCC;
+        private List<AttachmentModel> _attachments;
         bool isMessageSent = false;
 
-        public CreateMailPage()
+        public CreateMailPage(string email)
         {
             try
             {
                 InitializeComponent();
+                Entry_Message_To.Text = email;
             }
             catch (Exception)
             {
@@ -46,6 +49,7 @@ namespace AndroidPMSiU.Views.CreateMail
             _toContacts = new List<ContactModel>();
             _toCC = new List<ContactModel>();
             _toBCC = new List<ContactModel>();
+            _attachments = new List<AttachmentModel>();
 
         }
 
@@ -62,33 +66,97 @@ namespace AndroidPMSiU.Views.CreateMail
                 }
                 else
                 {
-                    Console.WriteLine("Morate upisati ime primaoca!");
+                    Console.WriteLine("Морате уписати име примаоца");
                 }
-
             }
             else
             {
-                Console.WriteLine("Poruka nije poslata!");
+                Console.WriteLine("Порука није послата!");
             }
-        }
+        }        
 
-        async protected override void OnDisappearing()
+        protected async override void OnDisappearing()
         {
-            base.OnDisappearing();
+            //base.OnDisappearing();
 
-            if (!isMessageSent && (
+            if (!_isImagePicking && !isMessageSent && (
                 !string.IsNullOrEmpty(Entry_Message_To.Text) ||
-                Stack_Contacts != null ||
                 !string.IsNullOrEmpty(Entry_Message_CC.Text) ||
-                Stack_CC != null ||
+                _toContacts.Any() ||
                 !string.IsNullOrEmpty(Entry_Message_BCC.Text) ||
-                Stack_BCC != null ||
-                !string.IsNullOrEmpty(Entry_Message_Subject.Text) || 
+                _toCC.Any() ||  
+                _toBCC.Any() ||
+                _attachments.Any() ||
+                !string.IsNullOrEmpty(Entry_Message_Subject.Text) ||
                 !string.IsNullOrEmpty(Entry_Message_Content.Text)))
             {
-                SaveMessageProcedure(RealmMessageService.DRAFT_MESSAGE_TYPE, true);
+                await SaveMessageProcedure(RealmMessageService.DRAFT_MESSAGE_TYPE, true);
             }
         }
+
+
+        private async Task<bool> SaveMessageProcedure(int type, bool draft)
+        {
+
+            MessageModel sentMessages = new MessageModel();
+            sentMessages.Id = DateTime.Now.Ticks;
+            sentMessages.FolderId = 1;
+            sentMessages.From = null;
+            sentMessages.Subject = Entry_Message_Content.Text;
+            sentMessages.MessageContent = Entry_Message_Content.Text;
+            sentMessages.IsCreatedInMobileApp = true;
+            sentMessages.Type = type;
+            
+
+            SendMessageModel sentModel = new SendMessageModel();
+            sentModel.Subject = Entry_Message_Subject.Text;
+            sentModel.MessageContent = Entry_Message_Content.Text;
+            sentModel.DateTime = DateTime.Now;
+
+            foreach (var item in _toContacts)
+            {
+                sentMessages.ContactsToIds.Add(item.Id);
+                sentModel.ContactsTo.Add(item.Id);
+            }
+
+            foreach (var item in _toCC)
+            {
+                sentMessages.ContactsCCIds.Add(item.Id);
+                sentModel.ContactsCC.Add(item.Id);
+            }
+
+            foreach (var item in _toBCC)
+            {
+                sentMessages.ContactsBCCIds.Add(item.Id);
+                sentModel.ContactsBCC.Add(item.Id);
+            }
+
+            foreach (var item in _attachments)
+            {
+                sentMessages.Attachments.Add(item);
+                sentModel.Attachments.Add(item);
+            }
+
+            sentModel.IsDraft = draft;
+
+            dialog.Show();
+            bool isCreated = await MessageService.CreateSentMessage(sentModel);
+            dialog.Hide();
+
+            sentMessages.IsCreatedInMobileApp = !isCreated;
+            RealmMessageService.InsertMessages(sentMessages);
+
+            isMessageSent = true;
+
+            if (!draft)
+            {
+                await Navigation.PopAsync();
+
+            }
+            return true;
+        }
+
+
 
         #region ContactsTo
         private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
@@ -122,74 +190,6 @@ namespace AndroidPMSiU.Views.CreateMail
                 }
             }
         }
-
-        private async Task<bool> SaveMessageProcedure(int type, bool draft)
-        {
-
-            MessageModel sentMessages = new MessageModel();
-            sentMessages.Id = DateTime.Now.Ticks;
-            sentMessages.FolderId = 1;
-            sentMessages.From = null;
-            sentMessages.Subject = Entry_Message_Content.Text;
-            sentMessages.MessageContent = Entry_Message_Content.Text;
-            sentMessages.IsCreatedInMobileApp = true;
-            sentMessages.Type = type;
-
-            SendMessageModel sentModel = new SendMessageModel();
-            sentModel.Subject = Entry_Message_Subject.Text;
-            sentModel.MessageContent = Entry_Message_Content.Text;
-            sentModel.DateTime = DateTime.Now;
-
-            foreach (var item in _toContacts)
-            {
-                sentMessages.ContactsToIds.Add(item.Id);
-                sentModel.ContactsTo.Add(item.Id);
-            }
-
-            foreach (var item in _toCC)
-            {
-                sentMessages.ContactsCCIds.Add(item.Id);
-                sentModel.ContactsCC.Add(item.Id);
-            }
-
-            foreach (var item in _toBCC)
-            {
-                sentMessages.ContactsBCCIds.Add(item.Id);
-                sentModel.ContactsBCC.Add(item.Id);
-            }
-            sentModel.IsDraft = draft;
-
-            dialog.Show();
-            bool isCreated = await MessageService.CreateSentMessage(sentModel);
-            dialog.Hide();
-
-            sentMessages.IsCreatedInMobileApp = !isCreated;
-            RealmMessageService.InsertMessages(sentMessages);
-
-            isMessageSent = true;
-
-            Entry_Message_To.Text = "";
-            Stack_Contacts = null;
-
-            Entry_Message_CC.Text = "";
-            Stack_CC = null;
-
-            Entry_Message_BCC.Text = "";
-            Stack_BCC = null;
-
-            Entry_Message_Subject.Text = "";
-            Entry_Message_Content.Text = "";
-
-            await Navigation.PopAsync();
-            return true;
-        }
-
-
-        private void AutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
-        {
-            // Set sender.Text. You can use args.SelectedItem to build your text string.  
-        }
-
 
         private void AutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
@@ -383,41 +383,72 @@ namespace AndroidPMSiU.Views.CreateMail
         {
             try
             {
-                var file = await CrossFilePicker.Current.PickFile();
-                if (file != null)
+                _isImagePicking = true;
+                var pickedFile = await CrossFilePicker.Current.PickFile();
+                _isImagePicking = false;
+                if (pickedFile != null)
                 {
-                    lblPickedFile.Text = file.FileName;
+                    var bytes = ReadFully(pickedFile.GetStream());
+                    AttachmentModel attachment = new AttachmentModel
+                    {
+                        Name = Path.GetFileName(pickedFile.FilePath).Split('.').FirstOrDefault(),
+                        Type = Path.GetExtension(pickedFile.FilePath),
+                        Data = Convert.ToBase64String(bytes)
+                    };
 
+                    _attachments.Add(attachment);
+                    DrawSelectedAttachments(Stack_Attachments);
+                    pickedFile.Dispose();
                 }
             }
-
             catch (Exception ex)
             {
                 throw;
             }
         }
 
+        private void DrawSelectedAttachments(StackLayout stackAttachments)
+        {
+            stackAttachments.Children.Clear();
+            foreach (var attachment in _attachments)
+            {
+                stackAttachments.Children.Add(new Label { Text = attachment.Name });
+                var clearImage = new Image { Source = "clear.png" };
+                clearImage.GestureRecognizers.Add(new TapGestureRecognizer
+                {
+                    TappedCallback = delegate
+                    {
+                        if (_attachments.Any(x => x.Name == attachment.Name))
+                        {
+                            _attachments.Remove(attachment);
+                            DrawSelectedAttachments(stackAttachments);
+                        }
+                    }
+                });
+                stackAttachments.Children.Add(clearImage);
+            }
+        }
 
+        public byte[] ReadFully(Stream input)
+        {
+            byte[] buffer = new byte[16 * 1024];
+            using (MemoryStream ms = new MemoryStream())
+            {
+                int read;
+                while ((read = input.Read(buffer, 0, buffer.Length)) > 0)
+                {
+                    ms.Write(buffer, 0, read);
+                }
+                return ms.ToArray();
+            }
+        }
 
-        //private async Task<FileData> PickFile(string[] allowedTypes = null)
-        //{
-        //    try
-        //    {
-        //        FileData fileData = await CrossFilePicker.Current.PickFile();
-        //        if (fileData == null)
-        //            return fileData; // user canceled file picking
+        protected override bool OnBackButtonPressed()
+        {
+            return false;  
+        }
 
-        //        string fileName = fileData.FileName;
-        //        string contents = System.Text.Encoding.UTF8.GetString(fileData.DataArray);
-
-        //        System.Console.WriteLine("File name chosen: " + fileName);
-        //        System.Console.WriteLine("File data: " + contents);
-        //    }
-        //catch (Exception ex)
-        //    {
-        //        System.Console.WriteLine("Exception choosing file: " + ex.ToString());
-        //        return null;
-        //    }
-        //}
     }
+
+    
 }

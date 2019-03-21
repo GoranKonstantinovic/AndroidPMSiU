@@ -1,12 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:forms="clr-namespace:dotMorten.Xamarin.Forms;assembly=dotMorten.Xamarin.Forms.AutoSuggestBox"
              x:Class="AndroidPMSiU.Views.CreateMail.SentMailDetailsPage"
              Title="Порука"
              BackgroundColor="#fff0d3">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Icon="delete.png" Order="Primary" Text="Брисање" Priority="1"/>
+        <ToolbarItem Icon="delete.png" x:Name="Icon_Delete" Order="Primary" Text="Брисање" Priority="1" Clicked="DeleteEMail"/>
         <ToolbarItem Icon="reply.png" Order="Primary" Text="Одговори" Priority="1"/>
         <ToolbarItem Icon="reply_all.png" Order="Primary" Text="Орговори свима" Priority="1"/>
         <ToolbarItem Icon="forward.png" Order="Primary" Text="Проследи" Priority="1"/>
@@ -27,22 +26,47 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
 
                     <Label
                         x:Name="subject"
                         FontSize="32"
-                        Grid.Row="0"/>
+                        Grid.Row="0"
+                        HorizontalTextAlignment="Center"/>
 
                     <Label
                         Grid.Row="1"
                         x:Name="stringContactsFrom"
                         FontSize="Medium"/>
+                    
+                    <Label
+                        x:Name="cc"
+                        Grid.Row="2"
+                        FontSize="Small"/>
 
                     <Label
-                        Grid.Row="2"
+                        x:Name="receiveTime"
+                        Grid.Row="3"
+                        FontSize="Small"/>
+
+                    <Label
+                        Grid.Row="4"
                         x:Name="messageContent"
                         FontSize="Medium"/>
+
+                    <ScrollView
+                        Grid.Row="5"
+                        Orientation="Vertical"
+                        HeightRequest="100">
+                        <StackLayout
+                            x:Name="attachments"
+                            Orientation="Vertical"             
+                            HorizontalOptions="FillAndExpand"
+                            VerticalOptions="FillAndExpand"/>
+                    </ScrollView>
+                   
                 </Grid>
             </StackLayout>
         </RelativeLayout>

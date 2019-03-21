@@ -5,7 +5,7 @@
              Title="Порука"
              BackgroundColor="#fff0d3">
     <ContentPage.ToolbarItems>
-        <ToolbarItem Icon="delete.png" Order="Primary" Text="Брисање" Priority="1"/>
+        <ToolbarItem Icon="delete.png" x:Name="Icon_Delete" Order="Primary" Text="Брисање" Priority="1" Clicked="DeleteEMail"/>
         <ToolbarItem Icon="reply.png" Order="Primary" Text="Одговори" Priority="1"/>
         <ToolbarItem Icon="reply_all.png" Order="Primary" Text="Орговори свима" Priority="1"/>
         <ToolbarItem Icon="forward.png" Order="Primary" Text="Проследи" Priority="1"/>
@@ -23,6 +23,8 @@
                     VerticalOptions="FillAndExpand">
                     
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
@@ -53,7 +55,12 @@
 
                     <Label
                         x:Name="messageContent"
-                        Grid.Row="4"
+                        Grid.Row="5"
+                        FontSize="Medium"/>
+
+                    <Label
+                        x:Name="attachment"
+                        Grid.Row="8"
                         FontSize="Medium"/>
                 </Grid>
             </StackLayout>

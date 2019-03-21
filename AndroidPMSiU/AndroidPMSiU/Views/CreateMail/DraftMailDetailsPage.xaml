@@ -2,6 +2,12 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AndroidPMSiU.Views.CreateMail.DraftMailDetailsPage">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Icon="delete.png" x:Name="Icon_Delete" Order="Primary" Text="Брисање" Priority="1" Clicked="DeleteEMail"/>
+        <ToolbarItem Icon="reply.png" Order="Primary" Text="Одговори" Priority="1"/>
+        <ToolbarItem Icon="reply_all.png" Order="Primary" Text="Орговори свима" Priority="1"/>
+        <ToolbarItem Icon="forward.png" Order="Primary" Text="Проследи" Priority="1"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <RelativeLayout>
             <StackLayout 

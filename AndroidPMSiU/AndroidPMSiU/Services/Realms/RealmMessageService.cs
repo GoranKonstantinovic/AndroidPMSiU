@@ -168,13 +168,13 @@ namespace AndroidPMSiU.Services.Realms
             }
         }
 
-        public static void DeleteMessage(MessageModel messageModel)
+        public static void DeleteMessage(long deleteById)
         {
             var realm = Realm.GetInstance();
-            var deleteMessage = realm.All<MessageModel>().First(x => x.Id == messageModel.Id);
+            var deleteMessage = realm.All<MessageModel>().First(x => x.Id == deleteById);
             try
             {
-                using(var trans = realm.BeginWrite())
+                using (var trans = realm.BeginWrite())
                 {
                     realm.Remove(deleteMessage);
                     trans.Commit();
@@ -182,7 +182,6 @@ namespace AndroidPMSiU.Services.Realms
             }
             catch (Exception)
             {
-
                 throw;
             }
         }

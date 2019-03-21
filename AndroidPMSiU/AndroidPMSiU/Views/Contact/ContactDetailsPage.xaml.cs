@@ -9,7 +9,8 @@ namespace AndroidPMSiU.Views.Contact
     [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class ContactDetailsPage : ContentPage
 	{
-		public ContactDetailsPage (ContactModel contact)
+        public string email { get; set; }
+        public ContactDetailsPage (ContactModel contact)
 		{
             Title = "Детаљи о контакту";
 			InitializeComponent ();
@@ -18,18 +19,14 @@ namespace AndroidPMSiU.Views.Contact
             displayName.Text = contact.DisplayName;
             emailAdress.Text = contact.EmailAddress;
 
-
+            email = contact.EmailAddress;
         }
-
-        //public void SendMessageToContact(object sender, EventArgs e)
-        //{
  
-        //    var page = new ContactDetailsPage()
-        //    {
-                
-        //    };
 
-        //}
+        public void SendMessageToContact(object sender, EventArgs e)
+        {
+            Navigation.PushAsync(new CreateMailPage(email));
+        }
 
     }
 }

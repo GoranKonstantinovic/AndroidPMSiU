@@ -146,7 +146,6 @@
                     <Picker.Items>
                         <x:String>Наслове</x:String>
                         <x:String>Садржај</x:String>
-                        <x:String>Кључне речи</x:String>
                         <x:String>Примаоце</x:String>
                         <x:String>Пошиљаоце</x:String>
                         <x:String>Копије</x:String>
