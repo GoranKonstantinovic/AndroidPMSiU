@@ -12,7 +12,7 @@ namespace AndroidPMSiU.Views.Account
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class AccountPage : ContentPage
 	{
-        private IProgressDialog dialog;
+        //private IProgressDialog dialog;
         public AccountPage()
 		{
             try
@@ -25,7 +25,7 @@ namespace AndroidPMSiU.Views.Account
 
                 throw;
             }
-            dialog = UserDialogs.Instance.Loading("Учитавање...");
+            //dialog = UserDialogs.Instance.Loading("Учитавање...");
 
         }
 
